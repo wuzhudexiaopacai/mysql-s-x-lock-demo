@@ -1,0 +1,78 @@
+Subject: [PATCH] fix: 将insert into select 语法改成业务层查询后再插入解决死锁问题
+---
+Index: src/main/java/com/ndx/www/service/StockService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ndx/www/service/StockService.java b/src/main/java/com/ndx/www/service/StockService.java
+--- a/src/main/java/com/ndx/www/service/StockService.java	(revision 9507cd25715de1ea756bc45d6f52d71b8b947275)
++++ b/src/main/java/com/ndx/www/service/StockService.java	(date 1792297361869)
+@@ -21,7 +21,13 @@
+      * 接口1：生成库存快照，A表insert into A select B
+      */
+     public void createStockSnapshot() {
+-      goodsStockSnapshotMapper.insertSnapshotFromB();
++        // Step1：RR普通SELECT 快照读，读取goods_stock，不加任何行锁
++        List<GoodsStock> stockAllList = goodsStockSnapshotMapper.selectAll();
++
++        // Step2：应用拿到内存数据，批量插入快照表
++        if (!stockAllList.isEmpty()) {
++            goodsStockSnapshotMapper.batchInsert(stockAllList);
++        }
+     }
+ 
+     /**
+Index: src/main/java/com/ndx/www/mapper/GoodsStockSnapshotMapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/ndx/www/mapper/GoodsStockSnapshotMapper.java b/src/main/java/com/ndx/www/mapper/GoodsStockSnapshotMapper.java
+--- a/src/main/java/com/ndx/www/mapper/GoodsStockSnapshotMapper.java	(revision 9507cd25715de1ea756bc45d6f52d71b8b947275)
++++ b/src/main/java/com/ndx/www/mapper/GoodsStockSnapshotMapper.java	(date 1792297361853)
+@@ -1,6 +1,10 @@
+ package com.ndx.www.mapper;
+ 
++import com.ndx.www.entity.GoodsStock;
+ import org.apache.ibatis.annotations.Mapper;
++import org.apache.ibatis.annotations.Param;
++
++import java.util.List;
+ 
+ @Mapper
+ public interface GoodsStockSnapshotMapper {
+@@ -8,4 +12,8 @@
+      * 将B表goods_stock全部数据批量插入快照表A
+      */
+     int insertSnapshotFromB();
++
++    List<GoodsStock> selectAll();
++
++    void batchInsert(@Param("stockAllList") List<GoodsStock> stockAllList);
+ }
+Index: src/main/resources/mapper/GoodsStockSnapshotMapper.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mapper/GoodsStockSnapshotMapper.xml b/src/main/resources/mapper/GoodsStockSnapshotMapper.xml
+--- a/src/main/resources/mapper/GoodsStockSnapshotMapper.xml	(revision 9507cd25715de1ea756bc45d6f52d71b8b947275)
++++ b/src/main/resources/mapper/GoodsStockSnapshotMapper.xml	(date 1792297361861)
+@@ -12,4 +12,16 @@
+         INSERT INTO goods_stock_snapshot(goods_id, warehouse_id, goods_name, stock_num)
+         SELECT goods_id, warehouse_id, goods_name, stock_num FROM goods_stock
+     </insert>
++    <select id="selectAll" resultType="com.ndx.www.entity.GoodsStock">
++        SELECT goods_id, warehouse_id, goods_name, stock_num
++        FROM goods_stock
++    </select>
++    <insert id="batchInsert">
++        INSERT INTO goods_stock_snapshot(goods_id, warehouse_id, goods_name, stock_num)
++        VALUES
++        <foreach collection="stockAllList" item="item" separator=",">
++            (#{item.goodsId}, #{item.warehouseId}, #{item.goodsName}, #{item.stockNum})
++        </foreach>
++    </insert>
++
+ </mapper>
