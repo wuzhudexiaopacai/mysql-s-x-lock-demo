@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ndx.www.mapper.GoodsStockSnapshotMapper">
+
+    <!--
+      接口1 SQL：insert into A select 字段 from B
+      业务：把B表当前库存数据，批量写入A快照表
+      注意：RR隔离级别下，这条SQL会对B表扫描行加共享S行锁，会阻塞B表写操作
+    -->
+    <insert id="insertSnapshotFromB">
+        INSERT INTO goods_stock_snapshot(goods_id, warehouse_id, goods_name, stock_num)
+        SELECT goods_id, warehouse_id, goods_name, stock_num FROM goods_stock
+    </insert>
+</mapper>

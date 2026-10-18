@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ndx.www.mapper.GoodsStockMapper">
+
+    <!--
+        接口2 SQL：ON DUPLICATE KEY UPDATE 有则更新无则插入
+        联合主键 goods_id + warehouse_id
+        当(goods_id,warehouse_id)组合已存在：库存累加；不存在则新增一行
+    -->
+    <insert id="batchUpsertStock">
+        INSERT INTO goods_stock(goods_id, warehouse_id, goods_name, stock_num)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.goodsId}, #{item.warehouseId}, #{item.goodsName}, #{item.stockNum})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        stock_num = stock_num + VALUES(stock_num),
+        goods_name = VALUES(goods_name)
+    </insert>
+</mapper>

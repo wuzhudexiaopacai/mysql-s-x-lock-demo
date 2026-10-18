@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="模拟死锁问题请求">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="库存表线程">
+        <intProp name="ThreadGroup.num_threads">600</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">50</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request">
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/stock/batch-upsert</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">[&#xd;
+    {&quot;goodsId&quot;:10047,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10047&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10012,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10012&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10089,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10089&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10025,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10025&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10063,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10063&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10007,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10007&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10072,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10072&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10034,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10034&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10091,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10091&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10056,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10056&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10019,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10019&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10081,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10081&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10038,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10038&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10067,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10067&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10029,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10029&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10076,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10076&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10042,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10042&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10094,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10094&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10051,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10051&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10015,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10015&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10084,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10084&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10031,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10031&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10060,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10060&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10003,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10003&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10079,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10079&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10045,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10045&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10097,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10097&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10054,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10054&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10022,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10022&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10070,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10070&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10036,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10036&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10086,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10086&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10058,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10058&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10010,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10010&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10065,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10065&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10027,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10027&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10092,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10092&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10040,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10040&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10074,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10074&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10049,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10049&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10082,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10082&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10017,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10017&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10062,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10062&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10033,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10033&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10078,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10078&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10053,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10053&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10095,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10095&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10024,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10024&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10044,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10044&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10069,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10069&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10030,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10030&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10087,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10087&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10057,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10057&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10014,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10014&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10073,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10073&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10037,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10037&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10090,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10090&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10048,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10048&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10064,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10064&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10021,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10021&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10080,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10080&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10035,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10035&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10055,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10055&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10011,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10011&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10077,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10077&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10093,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10093&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10041,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10041&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10066,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10066&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10028,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10028&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10085,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10085&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10050,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10050&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10018,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10018&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10071,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10071&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10032,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10032&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10096,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10096&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10059,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10059&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10005,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10005&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10068,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10068&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10026,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10026&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10088,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10088&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10046,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10046&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10020,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10020&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10075,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10075&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10039,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10039&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10098,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10098&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10052,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10052&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10013,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10013&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10061,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10061&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10023,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10023&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10083,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10083&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10043,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10043&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10009,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10009&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10074,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10074&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10034,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10034&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10099,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10099&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10056,&quot;warehouseId&quot;:3,&quot;goodsName&quot;:&quot;商品10056&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10004,&quot;warehouseId&quot;:1,&quot;goodsName&quot;:&quot;商品10004&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10076,&quot;warehouseId&quot;:4,&quot;goodsName&quot;:&quot;商品10076&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10031,&quot;warehouseId&quot;:2,&quot;goodsName&quot;:&quot;商品10031&quot;,&quot;stockNum&quot;:11},&#xd;
+    {&quot;goodsId&quot;:10100,&quot;warehouseId&quot;:5,&quot;goodsName&quot;:&quot;商品10100&quot;,&quot;stockNum&quot;:11}&#xd;
+]&#xd;
+</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="快照表线程">
+        <intProp name="ThreadGroup.num_threads">600</intProp>
+        <intProp name="ThreadGroup.ramp_time">1</intProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
+          <stringProp name="LoopController.loops">50</stringProp>
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP Request">
+          <stringProp name="HTTPSampler.domain">127.0.0.1</stringProp>
+          <stringProp name="HTTPSampler.port">8080</stringProp>
+          <stringProp name="HTTPSampler.protocol">http</stringProp>
+          <stringProp name="HTTPSampler.path">/stock/snapshot</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">false</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager">
+          <collectionProp name="HeaderManager.headers">
+            <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+          </collectionProp>
+        </HeaderManager>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <url>true</url>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
